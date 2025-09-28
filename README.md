@@ -58,23 +58,10 @@ Backpropagation/
 ├── requirements.txt
 ├── LICENSE
 ├── src/
-│   ├── __init__.py
-│   ├── neural_network.py
-│   ├── layers.py
-│   ├── activation_functions.py
-│   ├── loss_functions.py
-│   └── optimizers.py
+│   
 ├── examples/
-│   ├── xor_example.py
-│   ├── mnist_example.py
-│   └── visualization.py
+│   
 ├── tests/
-│   ├── test_neural_network.py
-│   ├── test_layers.py
-│   └── test_gradients.py
-└── docs/
-    ├── mathematical_derivation.md
-    └── implementation_notes.md
 ```
 
 ## Installation & Usage
