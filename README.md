@@ -1,19 +1,22 @@
-# Backpropagation from Scratch
+# Backpropagation
 
-## Overview
+Implemented & Explained. This will give both me and you a better understanding of how this technique works.
 
-A complete implementation of neural networks and backpropagation algorithm built from scratch for educational purposes.
+![Cover](cover.jpg)
+
+🚧 In  Progress
+To-do:
+
+- Everything
 
 ## Table of Contents
 
-- [Backpropagation from Scratch](#backpropagation-from-scratch)
-  - [Overview](#overview)
+- [Backpropagation](#backpropagation)
   - [Table of Contents](#table-of-contents)
+  - [Motivation](#motivation)
   - [Mathematical Foundation \& Theory](#mathematical-foundation--theory)
     - [Neural Network Basics](#neural-network-basics)
-    - [Loss Functions](#loss-functions)
-    - [Gradient Computation](#gradient-computation)
-    - [Backpropagation Algorithm](#backpropagation-algorithm)
+    - [Algorithm](#algorithm)
     - [Weight Updates](#weight-updates)
   - [Project Structure](#project-structure)
   - [Installation \& Usage](#installation--usage)
@@ -22,23 +25,19 @@ A complete implementation of neural networks and backpropagation algorithm built
     - [Usage](#usage)
   - [License](#license)
 
+## Motivation
+
+In real life, regression models are often not enough. Linear regression may be inaccurate and polynomial regression may overfit. More sophisticated tools are needed. Neural networks are one of the tools we use in covering more complex cases. Backpropagation is the key algorithm behind neural networks. Once we have this idea down, we can explore deep learning, which opens up a whole new field of problems to study.
+
 ## Mathematical Foundation & Theory
 
-This section covers the complete mathematical derivation and implementation details of backpropagation.
+This section will cover the complete mathematical derivation and implementation details of backpropagation.
 
 ### Neural Network Basics
 
-Forward pass equations and network architecture fundamentals.
+Forward pass eq'ns and network architecture fundamentals.
 
-### Loss Functions
-
-Cost/loss function definitions and their derivatives.
-
-### Gradient Computation
-
-Partial derivatives and chain rule applications in neural networks.
-
-### Backpropagation Algorithm
+### Algorithm
 
 Step-by-step mathematical derivation of the backpropagation process.
 
@@ -67,10 +66,10 @@ Backpropagation/
 ## Installation & Usage
 
 ### Prerequisites
-<!-- Python version, dependencies -->
+<!-- Python version, dependencies, etc. etc. -->
 
 ### Setup
-<!-- Installation steps -->
+<!-- Steps -->
 
 ### Usage
 
