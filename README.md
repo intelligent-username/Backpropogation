@@ -1,7 +1,5 @@
 # Backpropagation
 
-Implemented & Explained. This will give both me and you a better understanding of how this technique works.
-
 ![Cover](cover.jpg)
 
 🚧 In  Progress
@@ -27,7 +25,7 @@ To-do:
 
 ## Motivation
 
-In real life, regression models are often not enough. Linear regression may be inaccurate and polynomial regression may overfit. More sophisticated tools are needed. Neural networks are one of the tools we use in covering more complex cases. Backpropagation is the key algorithm behind neural networks. Once we have this idea down, we can explore deep learning, which opens up a whole new field of problems to study.
+Imagine we're trying to solve the same old machine learning problem: fitting a model to data. In real life, this data is often complicated and convoluted. [Regression models](https://www.github.com/intelligent-username/polynomial-regression) are often not enough. We start to create more sophisticated models by nesting multiple functions together. Or, we may want to work on classification (i.e. binning labels based on features). Now, these functions, too, need to be optimized. Once again, to do this, we minimize the loss function. We turn to our trusty old [gradient descent](https://www.github.com/intelligent-username/gradient-descent). However, this is computationally expensive, so we need..
 
 ## Mathematical Foundation & Theory
 
