@@ -5,7 +5,9 @@
 🚧 In  Progress
 To-do:
 
-- Everything
+- Clearly convert point form into real paragraphs
+- Implement
+- Test/Demo/etc. then wrap up !!
 
 ## Table of Contents
 
@@ -33,48 +35,52 @@ This section will cover the complete mathematical derivation and implementation 
 
 ### Neural Network Basics
 
-Forward pass eq'ns and network architecture fundamentals.
+- Forward pass equations chaining inputs through multiple layers, each with weights and biases.
+- Network architecture fundamentals: neurons connected in layers, from input to output.
+- Activation functions adding non-linearity, like sigmoid or ReLU, to handle complex patterns.
+- Loss functions measuring how far predictions are from actual targets, guiding optimization.
 
 ### Algorithm
 
-Step-by-step mathematical derivation of the backpropagation process.
+- Step-by-step backpropagation: computing gradients layer by layer, starting from output.
+- Chain rule in action: multiplying partial derivatives backwards through the network.
+- Error signals flowing reverse, updating each weight based on its contribution to the loss.
+- Computational graph unfolding, tracking how each parameter affects the final output.
 
 ### Weight Updates
 
-Gradient descent and optimization techniques for parameter updates.
+- Gradient descent minimizing loss by adjusting weights in the opposite direction of gradients.
+- Learning rate controlling step size, too big overshoots, too small takes forever.
+- Optimization techniques like momentum or Adam speeding up convergence.
+- Batch vs stochastic: processing all data at once or one sample at a time for efficiency.
 
 ---
 
 ## Project Structure
 
-**Note**: This is an educational implementation of backpropagation built from scratch for learning purposes. It will not be the most efficient.
-
-```md
-Backpropagation/
-├── README.md
-├── requirements.txt
-├── LICENSE
-├── src/
-│   
-├── examples/
-│   
-├── tests/
-```
+- folder
+- folder
+- folder
 
 ## Installation & Usage
 
 ### Prerequisites
-<!-- Python version, dependencies, etc. etc. -->
+
+- Git for cloning the repo, pip for installing dependencies.
+- Python 3.8 or higher, numpy for matrix operations, matplotlib for plotting.
 
 ### Setup
-<!-- Steps -->
+
+- Clone the repository from GitHub
+- Install dependencies.
+- Run the examples.
 
 ### Usage
 
+- Import the neural network class, define layers and activations.
+- Train on your data by calling fit(), watch the loss decrease over epochs.
+- Make predictions with predict(), evaluate accuracy on test sets.
+
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-**Note**: This is an educational implementation of backpropagation built from scratch for learning purposes.
+MIT
