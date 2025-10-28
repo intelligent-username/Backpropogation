@@ -1,6 +1,6 @@
 # Backpropagation
 
-![Cover](cover.jpg)
+![Cover. Painting: The Course of Empire, Destruction by Thomas Cole, 1836](cover.jpg)
 
 🚧 In  Progress
 To-do:
@@ -30,21 +30,21 @@ Imagine we're trying to fit a multi-layered model to data. In real life, we may 
 
 ## Mathematical Foundation & Theory
 
-At its core, backpropogation takes reverse-mode differentiation and uses dynamic programming to make the calculation/storing process more efficient.
+At its core, backpropagation takes reverse-mode differentiation and uses dynamic programming to make the calculation/storing process more efficient.
 
 Automatic differentiation is among the simplest numerical methods in machine learning. Simply put when we have a 'nest' of functions $\hat{y} = f_n(f_{n-1}(...f_1(x))) + b$, and we want to find $\frac{d \hat{y}}{d x}$, we can use the chain rule, which gives:
 
 $$
-\frac{d \hat{y}}{d x} = \frac{d \hat{y}}{d f_n} \cdot \frac{d f_n}{d f_{n-1}} \cdots \frac{d f_1}{d x}
+\frac{d \hat{y}}{d x} = \frac{d \hat{f_n}}{d f_{n-1}} \cdot \frac{d f_{n-1}}{d f_{n-2}} \cdots \frac{d f_1}{d x}
 $$
 
 In autodifferentiation, we read each partial derivative and multiply to get the final result. This can be done in two ways: **forward mode** and **reverse mode**.
 
-Forward mode is when we read 'into' the function from the outer layers inwards, calculating the values of the functions and derivatives as we go.
+Forward mode is when we read 'into' the function from the outer layers inwards, calculating the values of the functions and derivatives as we go. Each intermediate derivative is computed alongside the function value.
 
 So, we first find $f_1(x)$ and $\frac{d f_1}{d x}$, then use those to find $f_2(f_1(x))$ and $\frac{d f_2}{d f_1}$, and so forth.
 
-Reverse mode, however, we calculate the values of the functions as we work 'inwards', and then we propagate back out, finding the derivatives with the pre-computed function values.
+In reverse mode, however, we calculate the values of the functions as we work 'inwards', and then we propagate back out, finding the derivatives with the pre-computed function values. We do the same function evaluations first, cache results, and propagate sensitivities backward to compute derivatives.
 
 So, we first find $f_n(...(f_1(x)))$, then $f_{n-1}(...f_1(x))$, and so forth as we propagate inwards. Then, we cache these results start finding $\frac{d \hat{y}}{d f_n}$ by propagating backwards to find $\frac{d f_n}{d f_{n-1}}$, and so forth.
 
@@ -76,14 +76,14 @@ $$
 w_{i+1} = w_i - \eta \frac{\partial L}{\partial w_i}
 $$
 
-In steps, we this is:
+In steps, this is:
 
 1. **Initiate**: start with a neural network of weights and biases
-2. **Evaluate a difference term**: start computing the loss at the current point and its derivative to find the direction to move.
-3. **Forward pass** – compute the output of the network by evaluating each neuron from left to right, caching intermediate values.
-4. **Backward pass** – compute the derivative of the loss with respect to every parameter by applying the chain rule in reverse. Start from $\frac{\partial L}{\partial \hat{y}}$ and move backward through each layer, using cached values from the forward pass.
-5. **Gradient aggregation** – combine local derivatives from each neuron to get the gradient for each weight and bias.
-6. **Parameter update** – once all partials are known, multiply by the learning rate and adjust the weights and biases.
+2. **'Loss Term'**: start computing the loss at the current point and its derivative to find the direction to move.
+3. **Forward Pass** – compute the output of the network by evaluating each neuron from left to right, caching intermediate values.
+4. **Backward Pass** – compute the derivative of the loss with respect to every parameter by applying the chain rule in reverse. Start from $\frac{\partial L}{\partial \hat{y}}$ and move backward through each layer, using cached values from the forward pass.
+5. **Gradient Aggregation** – combine the local derivatives from each neuron to get the updated gradients.
+6. **Parameter Update** – once all partial gradients are known, multiply by the learning rate and adjust the weights and biases.
 
 ---
 
@@ -112,4 +112,4 @@ In steps, we this is:
 
 ## License
 
-This project is distributed under the [MIT License][LICENSE](LICENSE).
+This project is distributed under the [MIT License](LICENSE).
