@@ -1,10 +1,14 @@
+# Activations functions
+# So far we have
+# [sigmoid, relu, tanh]
+
 import numpy as np
 
 def sigmoid(x):
-    pass
+    return 1/ (1 + np.exp(-x))
 
 def relu(x):
-    pass
+    return max(0, x)
 
 def tanh(x):
-    pass
+    return np.tanh(x)

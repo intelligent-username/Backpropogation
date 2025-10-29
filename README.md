@@ -1,6 +1,6 @@
 # Backpropagation
 
-![Cover. Painting: The Course of Empire, Destruction by Thomas Cole, 1836](cover.jpg)
+![Cover. Painting: The Course of Empire, Destruction by Thomas Cole, 1836](imgs/cover.jpg)
 
 🚧 In  Progress
 To-do:
@@ -56,14 +56,15 @@ It's important to understand that a neural network is just terminology that is m
 
 Imagine we have a neural network represented by the equation, $\hat{y}(x,y) = f(g(x,y)) + h(g(x,y)) + e^{f(x)} + \sigma(x,y) + \sigma((g(x,y), f(x))) + b$, it can be visualized as a series of layers:
 
-![Layered Neural Network](layers_example.png)
+![Layered Neural Network](imgs/layers_example.png)
 
 Some terminology:
 
 - **Neural network**: the entire function, visualized above.
 - **Neuron**: a single function within the neural network. Sometimes called a node.
 - **Layer**: the set of functions at a given 'depth' of the network.
-- **Activation functions**: functions that determine the output of a neuron by applying a non-linear transformation to the input. Often, they map the input to [-1, 1]. Their job is to 'create' complexity that can be learned.
+- **Activation functions**: functions that determine the output of a neuron by applying a non-linear transformation to the input. Often, they map the input to [-1, 1]. Their job is to 'create' complexity that can be learned. These functions are generally 'S-shaped' and are meant to regularize the numbers/outputs.
+![Activation Functions](imgs/a_f.png)
 - **Perceptron**: a layer of neurons that map inputs to 0 or 1 based on their conditions. These are the simplest type of activation function, and they are useful for classification. However, these are rarely used as they're hard to optimize. We often turn to differentiable activation functions, such as Sigmoid or ReLU instead.
 
 Now, when finding the optimal parameters for a neural network, we (usually) need to minimize a loss function, which is the measure of our accuracy. Weights are adjusted gradually through gradient descent in order to find the optimal parameters. Of course, we can tweak this process by adding regularization, changing the initial hyperparameters, and the like, but the main issue with this process is the sheer amount of time it takes to train a deep neural network. Imagine if we have 5 parameters and 10 layers. All of a sudden, even drawing the neural network becomes complicated, let alone optimizing its parameters. This is where backpropagation comes in.
