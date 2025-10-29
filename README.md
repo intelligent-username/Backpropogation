@@ -54,20 +54,41 @@ It's important to understand that a neural network is just terminology that is m
 
 ### Neural Network Basics
 
-Imagine we have a neural network represented by the equation, $\hat{y}(x,y) = f(g(x,y)) + h(g(x,y)) + e^{f(x)} + \sigma(x,y) + \sigma((g(x,y), f(x))) + b$, it can be visualized as a series of layers:
+Imagine we have some data that follows the trend of the following equation:
+
+$$\hat{y}(x,y) = f(g(x,y)) + h(g(x,y)) + e^{f(x)} + \sigma(x,y) + \sigma((g(x,y), f(x))) + b$$
+
+Which can be visualized as a series of layers:
 
 ![Layered Neural Network](imgs/layers_example.png)
 
+In real life, we're not just *given* equations, so we use neural networks to estimate what this function is going to be, based on just the features (inputs) and the labels (outputs).
+
 Some terminology:
 
-- **Neural network**: the entire function, visualized above.
-- **Neuron**: a single function within the neural network. Sometimes called a node.
-- **Layer**: the set of functions at a given 'depth' of the network.
-- **Activation functions**: functions that determine the output of a neuron by applying a non-linear transformation to the input. Often, they map the input to [-1, 1]. Their job is to 'create' complexity that can be learned. These functions are generally 'S-shaped' and are meant to regularize the numbers/outputs.
-![Activation Functions](imgs/a_f.png)
-- **Perceptron**: a layer of neurons that map inputs to 0 or 1 based on their conditions. These are the simplest type of activation function, and they are useful for classification. However, these are rarely used as they're hard to optimize. We often turn to differentiable activation functions, such as Sigmoid or ReLU instead.
+- **Neural network**: the entire composite function.
+- **Layer**: the set of neurons at the same 'depth' of the network.
+- **Neuron**: a single unit within the neural network that applies a non-linear activation and a weighted sum. Sometimes called a node. They take in some number of inputs, apply weights and biases, and pass the result to an activation function to get their result.
+- **Activation functions**: functions that determine the output of a neuron by applying a non-linear transformation to the input. Without them, we would just be composing a bunch of linear functions, which would be equivalent to a single linear function, thus regression to simple regression tasks instead of actually modelling complex curves.
 
-Now, when finding the optimal parameters for a neural network, we (usually) need to minimize a loss function, which is the measure of our accuracy. Weights are adjusted gradually through gradient descent in order to find the optimal parameters. Of course, we can tweak this process by adding regularization, changing the initial hyperparameters, and the like, but the main issue with this process is the sheer amount of time it takes to train a deep neural network. Imagine if we have 5 parameters and 10 layers. All of a sudden, even drawing the neural network becomes complicated, let alone optimizing its parameters. This is where backpropagation comes in.
+![Activation Functions](imgs/a_f.png)
+
+- **Perceptron**: Computes $y = f(mw+ b)$ and maps an input to either $0$ or $1$, serving as a binary classifier. These are rarely used nowadays, differentiable activation functions at or near the output are preferred instead.
+
+Types of neural networks:
+
+- **Dense**: in a dense neural network, every neuron in one layer is connected to every neuron in the next layer. All connections have a weight.
+- **Sparse**: not every neuron is connected to every other neuron (in other words, some weights are zero).
+&nbsp; - **Convolutional**: outputs are connected to a small patch of inputs.
+&nbsp; - **Recurrent**: layers have connections looping back to previous layers, like an FSM.
+
+Have a look at this beautiful diagram for a summary:
+
+![Neural Network Summary](imgs/NN.png)
+
+Now, we are ready to create the model. Every time a neuron receives its inputs, it weighs them and adds a bias. Then, it passes the result of this addition to an optimization function, creating its output which is passed on to the next layer(s). When training a neural network, our goal is to find the best weights for making accurate predictions. We can turn to gradient descent, evolution algorithms, or other optimization methods to do this. In this project, I will focus on gradient descent.
+
+When optimizing the weights between neurons through gradient descent, we can make many tweaks for the sake of efficiency and accuracy, but the biggest hurdle is the time it takes to compute the gradients. If we have a deep neural network with many layers and parameters, calculating the gradients is the limiting factor. This is why backpropagation is so important. However, at the same time, backpropagation isn't *strictly* necessary for making a neural network, though it is the most convenient way when using gradient descent.
 
 ### Algorithm
 
