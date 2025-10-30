@@ -22,6 +22,7 @@ To-do:
     - [Prerequisites](#prerequisites)
     - [Setup](#setup)
     - [Usage](#usage)
+  - [Bibliography](#bibliography)
   - [License](#license)
 
 ## Motivation
@@ -102,16 +103,31 @@ In steps, this is:
 
 1. **Initiate**: start with a neural network of weights and biases
 2. **'Loss Term'**: start computing the loss at the current point and its derivative to find the direction to move.
-3. **Forward Pass** – compute the output of the network by evaluating each neuron from left to right, caching intermediate values.
-4. **Backward Pass** – compute the derivative of the loss with respect to every parameter by applying the chain rule in reverse. Start from $\frac{\partial L}{\partial \hat{y}}$ and move backward through each layer, using cached values from the forward pass.
-5. **Gradient Aggregation** – combine the local derivatives from each neuron to get the updated gradients.
-6. **Parameter Update** – once all partial gradients are known, multiply by the learning rate and adjust the weights and biases.
+3. **Forward Pass**: compute the output of the network by evaluating each neuron from left to right, caching intermediate values.
+4. **Backward Pass**: compute the derivative of the loss with respect to every parameter by applying the chain rule in reverse. Start from $\frac{\partial L}{\partial \hat{y}}$ and move backward through each layer, using cached values from the forward pass.
+5. **Gradient Aggregation**: combine the local derivatives from each neuron to get the updated gradients.
+6. **Parameter Update**: once all partial gradients are known, multiply by the learning rate and adjust the weights and biases.
+7. **Iterate**: continue until convergence criteria are met (for example, predictions are very [similar](https://www.github.com/intelligent-username/Similarity-Metrics) to labels).
 
 ---
 
 ## Project Structure
 
-- folders, files
+```md
+Backpropogation/
+├── nn/
+│   ├── network.py          # Actual Neural Network Structure, composed of layers
+│   ├── layer.py            # Layers, which are just matrices of weights that store past activations (store the information necessary for the math)
+│   ├── activations.py      # Activation functions & their derivatives
+│   ├── loss.py             # Loss functions & their derivatives
+│   └── gd.py               # Gradient Descent
+├── utils/
+│   ├── loader.py           # Preprocessing data
+│   ├── metrics.py          # Return accuracy, specificity, and precision to evaluate the model.
+│   └── visualizer.py       # For visualizing the training
+├── data/                   # The datasets used in the demos
+├── tests/                  # Tests to ensure nothing is broken
+```
 
 ## Installation & Usage
 
@@ -123,14 +139,56 @@ In steps, this is:
 
 ### Setup
 
-- Clone the repository from GitHub
-- Dependencies.
+1. **Clone the repository from GitHub**:
+
+    ```bash
+    git clone https://github.com/intelligent-username/Backpropogation.git
+    cd Backpropogation
+    ```
+
+2. **Install dependencies**:
+
+    ```bash
+    # Create and activate a virtual environment (optional)
+    python -m venv venv
+    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+
+    # Install the required packages
+    pip install -r requirements.txt
+    ```
 
 ### Usage
 
-- Import the neural network class, define layers and activations.
-- Train on your data by calling fit(), watch the loss decrease over epochs.
-- Make predictions with predict(), evaluate accuracy on test sets.
+To use the neural network, you can import the `NeuralNetwork` class, define your layers and activations, and then train it on your data.
+
+Here's a quick example:
+
+```python
+from nn.network import NeuralNetwork
+from nn.layer import Layer
+from nn.activations import tanh, tanh_prime
+from nn.loss import mse, mse_prime
+from nn.gd import fit
+
+# 1. Define your network architecture
+net = NeuralNetwork(loss=mse, loss_derivative=mse_prime)
+net.add_layer(Layer(2, 3, tanh, tanh_prime))
+net.add_layer(Layer(3, 1, tanh, tanh_prime))
+
+# 2. Load your data (X_train, y_train)
+
+# 3. Train the network
+fit(net, X_train, y_train, epochs=1000, learning_rate=0.01)
+
+# 4. Make predictions
+# predictions = net.predict(X_test)
+```
+
+## Bibliography
+
+So far, the demos make use of 1 dataset.
+
+- Cortez, Paulo. "Student Performance." UCI Machine Learning Repository, 2008, [https://doi.org/10.24432/C5TG7T](https://doi.org/10.24432/C5TG7T).
 
 ## License
 

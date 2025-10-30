@@ -1,2 +1,8 @@
+# Quick mafs
 numpy
+
+# Save models (or load them)
+pickle
+
+# Visualize (not yet used)
 matplotlib
