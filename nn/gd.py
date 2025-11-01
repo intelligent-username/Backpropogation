@@ -1,30 +1,77 @@
 # Gradient Descent
 from network import NeuralNetwork
 import numpy as np
+from math import inf
 
-def fit(network: NeuralNetwork, X_train: np.ndarray, y_train: np.ndarray, epochs: int, learning_rate: float):
+def fit(network: NeuralNetwork, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray, X_test: np.ndarray, y_test: np.ndarray, max_epochs: int, learning_rate: float, patience: int = 10, min_loss: float = 1e-7) -> float:
     """
     Trains a neural network using gradient descent.
+
+    More robust stopping conditions, regularization, etc. etc. could be added but we're just keeping it simple rn :)
 
     Args:
         network (NeuralNetwork): The neural network to train.
         X_train (np.ndarray): The training input data.
         y_train (np.ndarray): The training output data.
-        epochs (int): The number of epochs to train for.
-        learning_rate (float): The learning rate for gradient descent.
+        X_val (np.ndarray): The validation input data.
+        y_val (np.ndarray): The validation output data.
+        X_test (np.ndarray): The test input data.
+        y_test (np.ndarray): The test output data.
+        max_epochs (int): The maximum number of epochs to train for.
+        learning_rate (float): The learning rate for gradient descent. Defaults to 0.01.
+        patience (int): Tolerance for error increase. If increases for this many epochs, stop early.
+        min_loss (float): If validation loss goes below this, stop early.
+    
+    Returns:
+        float: The final test set error.
+        Inputted neural-network gets trained in-place.
     """
-    for epoch in range(epochs):
-        error = 0
+
+    train_len = len(X_train)
+    train_val = len(X_val)
+
+    e = 0
+    failz = 0
+    prev_loss = inf
+
+    while e < max_epochs and failz < patience and prev_loss > min_loss:
+        # --- Training ---
+        train_error = 0
         for x, y in zip(X_train, y_train):
             # Forward pass
             output = network.forward(x)
 
             # Calculate error
-            error += network.loss(y, output)
+            train_error += network.loss(y, output)
 
             # Backward pass
             network.backward(y, learning_rate)
+        
+        train_error /= train_len
 
-        # Calculate average error for the epoch
-        error /= len(X_train)
-        print(f"Epoch {epoch + 1}/{epochs}, Error: {error:.4f}")
+        # --- Validation ---
+        val_error = 0
+        for x, y in zip(X_val, y_val):
+            output = network.forward(x)
+            val_error += network.loss(y, output)
+        val_error /= train_val
+
+        # --- Early stopping based on validation loss ---
+        if val_error > prev_loss:
+            failz += 1
+        else:
+            failz = 0
+            prev_loss = val_error
+
+        # print(f"Epoch {e + 1}/{max_epochs}, Train Error: {train_error:.4f}, Val Error: {val_error:.4f}")
+
+        e += 1
+
+    # Final Test
+    test_error = 0
+    for x, y in zip(X_test, y_test):
+        output = network.forward(x)
+        test_error += network.loss(y, output)
+    test_error /= len(X_test)
+    
+    return test_error

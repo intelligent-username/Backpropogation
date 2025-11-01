@@ -1,8 +1,12 @@
 # Quick mafs
 numpy
 
-# Save models (or load them)
+# For saving/loading models
 pickle
 
-# Visualize (not yet used)
+# Visualize (use later)
 matplotlib
+
+# Specifically for the digits dataset (preproc)
+Pillow
+

@@ -5,7 +5,6 @@
 🚧 In  Progress
 To-do:
 
-- Implement clearly via code
 - Installation steps
 - Test/Demo/etc. then wrap up !!
 
@@ -189,6 +188,7 @@ fit(net, X_train, y_train, epochs=1000, learning_rate=0.01)
 So far, the demos make use of 1 dataset.
 
 - Cortez, Paulo. "Student Performance." UCI Machine Learning Repository, 2008, [https://doi.org/10.24432/C5TG7T](https://doi.org/10.24432/C5TG7T).
+- [Digits](data/digits) dataset is public domain. [https://www.kaggle.com/datasets/aquibiqbal/digits-09](https://www.kaggle.com/datasets/aquibiqbal/digits-09)
 
 ## License
 

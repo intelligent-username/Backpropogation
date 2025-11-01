@@ -66,3 +66,29 @@ def huber_loss_derivative(y_true, y_pred, delta=1.0):
     error = y_pred - y_true
     derivative = np.where(np.abs(error) <= delta, error, delta * np.sign(error))
     return derivative / y_true.size
+
+def mae(y_true, y_pred):
+    """
+    Calculates the Mean Absolute Error loss.
+
+    Args:
+        y_true: The true target values.
+        y_pred: The predicted values.
+
+    Returns:
+        The mean absolute error.
+    """
+    return np.abs(y_true - y_pred).mean()
+
+def mae_derivative(y_true, y_pred):
+    """
+    Calculates the derivative of MAE at y_pred.
+
+    Args:
+        y_true: The true target values.
+        y_pred: The predicted values.
+
+    Returns:
+        The derivative of the MAE loss, averaged.
+    """
+    return np.sign(y_pred - y_true) / y_true.size
