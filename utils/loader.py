@@ -7,11 +7,27 @@ from PIL import Image
 import os
 
 def one_hot_encode(labels, num_classes):
-    return np.eye(num_classes)[labels]
+    labels = np.asarray(labels)
+    if labels.size == 0:
+        return np.zeros((0, num_classes), dtype=float)
+    if not np.issubdtype(labels.dtype, np.integer):
+        labels = labels.astype(int)
+    return np.eye(num_classes, dtype=float)[labels]
 
-def normalize_data(data, range_min=0, range_max=1):
-    data_min = np.min(data)
-    data_max = np.max(data)
+def normalize_data(data, mode="scale255", range_min=0, range_max=1, data_min=None, data_max=None):
+    # Skip empty arrays
+    if data.size == 0:
+        return data
+    data = data.astype(np.float32)
+    if mode == "scale255":
+        return data / 255.0
+    # Fallback: min-max (optionally with provided bounds)
+    if data_min is None:
+        data_min = np.min(data)
+    if data_max is None:
+        data_max = np.max(data)
+    if data_max == data_min:
+        return np.zeros_like(data) + range_min
     return (data - data_min) / (data_max - data_min) * (range_max - range_min) + range_min
 
 
@@ -51,10 +67,10 @@ def load_digits_dataset(path: str = 'data/digits', target_size: tuple = (16, 16)
 
     # Convert lists to numpy arrays
     X = np.array(images)
-    Y = np.array(labels)
+    Y = np.array(labels, dtype=int)   # ensure integer indices
 
     # Normalize image data and one-hot encode labels
-    X = normalize_data(X)
+    X = normalize_data(X, mode="scale255")
     Y = one_hot_encode(Y, num_classes)
 
     return X, Y

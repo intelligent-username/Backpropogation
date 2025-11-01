@@ -92,3 +92,34 @@ def mae_derivative(y_true, y_pred):
         The derivative of the MAE loss, averaged.
     """
     return np.sign(y_pred - y_true) / y_true.size
+
+def cross_entropy(y_true: np.ndarray, y_pred: np.ndarray, delta: float = 1e-6) -> float:
+    """
+    Cross entropy loss. 
+    Specially good for classification tasks.
+    Args:
+        y_true (np.ndarray): True labels, one-hot encoded.
+        y_pred (np.ndarray): Predicted probabilities from the model.
+        delta (float): Small value to avoid log(0).
+    Returns:
+        float: The cross-entropy loss.
+    """
+
+    y_pred = np.clip(y_pred, delta, 1.0 - delta)
+
+    # handle single sample (2D) or batch
+    if y_true.ndim == 1:
+        y_true = y_true.reshape(1, -1)
+    if y_pred.ndim == 1:
+        y_pred = y_pred.reshape(1, -1)
+
+    return float(-np.mean(np.sum(y_true * np.log(y_pred), axis=1)))
+
+def cross_entropy_derivative(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
+    # with softmax on the output layer, dL/dz = (y_pred - y_true)
+    if y_true.ndim == 1:
+        y_true = y_true.reshape(1, -1)
+    if y_pred.ndim == 1:
+        y_pred = y_pred.reshape(1, -1)
+
+    return (y_pred - y_true)

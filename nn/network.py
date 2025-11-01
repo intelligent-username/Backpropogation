@@ -2,6 +2,7 @@ import numpy as np
 from datetime import datetime
 import pickle
 from typing import Callable
+import os
 
 
 class NeuralNetwork:
@@ -18,15 +19,20 @@ class NeuralNetwork:
         self.layers.extend(layers)
 
     def forward(self, x) -> np.ndarray:
+        # ensure (batch, features)
+        if isinstance(x, np.ndarray) and x.ndim == 1:
+            x = x.reshape(1, -1)
         for layer in self.layers:
             x = layer.forward(x)
         self.forward_val = x        # Careful not to accidentally store/access an old value in the future
         return self.forward_val
 
     def backward(self, y_true, learning_rate) -> None:
-        # Compute initial gradient from loss derivative
+
+        if isinstance(y_true, np.ndarray) and y_true.ndim == 1:
+            y_true = y_true.reshape(1, -1)
+
         grad = self.loss_derivative(y_true, self.forward_val)
-        
         # Backpropagate through the rest of the layers in reverse order
         for layer in reversed(self.layers):
             grad = layer.backward(grad, learning_rate)
@@ -36,12 +42,36 @@ class NeuralNetwork:
         Saves the neural network model to the specified path using pickle.
 
         Args:
-            path (str): The file path to save the model.
+            path (str): A file name, a directory, or empty.
+                        - "": saves to models/nn_model_<timestamp>.pkl
+                        - "name.pkl": saves to models/name.pkl
+                        - "dir/": saves to dir/nn_model_<timestamp>.pkl
+                        - "dir/name" (no .pkl): saves to dir/name_<timestamp>.pkl
+                        - "dir/name.pkl": saves to dir/name.pkl
         """
-        if path == "":
-            path = datetime.now().strftime("nn_model_%Y%m%d_%H%M%S.pkl")
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-        with open(path, 'wb') as f:
+        if not path:
+            dirpath = "models"
+            filename = f"nn_model_{timestamp}.pkl"
+        else:
+            # If path ends with a separator, treat as directory only
+            if path.endswith(("/", "\\")):
+                dirpath = path.rstrip("/\\")
+                filename = f"nn_model_{timestamp}.pkl"
+            else:
+                dirpath = os.path.dirname(path) or "models"
+                base = os.path.basename(path)
+                root, ext = os.path.splitext(base)
+                if ext.lower() == ".pkl":
+                    filename = base
+                else:
+                    filename = f"{root}_{timestamp}.pkl"
+
+        os.makedirs(dirpath, exist_ok=True)
+        full_path = os.path.join(dirpath, filename)
+
+        with open(full_path, 'wb') as f:
             pickle.dump(self, f)
 
     def predict(self, x: np.ndarray) -> np.ndarray:

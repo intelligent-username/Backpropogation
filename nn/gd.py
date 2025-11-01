@@ -1,9 +1,9 @@
 # Gradient Descent
-from network import NeuralNetwork
+from .network import NeuralNetwork
 import numpy as np
 from math import inf
 
-def fit(network: NeuralNetwork, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray, X_test: np.ndarray, y_test: np.ndarray, max_epochs: int, learning_rate: float, patience: int = 10, min_loss: float = 1e-7) -> float:
+def fit(network: NeuralNetwork, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray, X_test: np.ndarray, y_test: np.ndarray, max_epochs: int = 100, learning_rate: float = 0.01, patience: int = 20, min_loss: float = 1e-7) -> float:
     """
     Trains a neural network using gradient descent.
 
@@ -35,18 +35,23 @@ def fit(network: NeuralNetwork, X_train: np.ndarray, y_train: np.ndarray, X_val:
     prev_loss = inf
 
     while e < max_epochs and failz < patience and prev_loss > min_loss:
-        # --- Training ---
-        train_error = 0
-        for x, y in zip(X_train, y_train):
-            # Forward pass
-            output = network.forward(x)
+        # --- Shuffle (predetermine stoachstic GD) ---
+        indices = np.arange(train_len)
+        np.random.shuffle(indices)
+        X_train_shuffled = X_train[indices]
+        y_train_shuffled = y_train[indices]
 
-            # Calculate error
+        # --- Training (SGD: update after each sample) ---
+        train_error = 0
+        for x, y in zip(X_train_shuffled, y_train_shuffled):
+            # First, forward pass
+            output = network.forward(x)
+            # Then calculate error
             train_error += network.loss(y, output)
 
             # Backward pass
             network.backward(y, learning_rate)
-        
+
         train_error /= train_len
 
         # --- Validation ---
@@ -56,7 +61,7 @@ def fit(network: NeuralNetwork, X_train: np.ndarray, y_train: np.ndarray, X_val:
             val_error += network.loss(y, output)
         val_error /= train_val
 
-        # --- Early stopping based on validation loss ---
+        # --- Early stopping based on conds ---
         if val_error > prev_loss:
             failz += 1
         else:

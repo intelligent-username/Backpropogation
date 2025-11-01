@@ -38,3 +38,19 @@ def tanh_derivative(x):
     Derivative of the Tanh Activation Function
     """
     return 1 - (np.tanh(x) ** 2)
+
+def softmax(z: np.ndarray) -> np.ndarray:
+    """
+    Softmax activation function.
+    """
+    z_shift = z - np.max(z, axis=1, keepdims=True)
+    exp_z = np.exp(z_shift)
+    return exp_z / (np.sum(exp_z, axis=1, keepdims=True) + 1e-12)
+
+# NOTE: dL/dz = (y_pred - y_true)
+# That's why we "don't" multiply by the derivative again
+def softmax_derivative_passthrough(z: np.ndarray) -> np.ndarray:
+    """
+    Softmax derivative
+    """
+    return np.ones_like(z)

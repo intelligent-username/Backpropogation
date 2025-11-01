@@ -49,30 +49,32 @@ class Layer:
         The forward pass of the current layer.
         Should iterate until the output is reached. Then reuse for the backward propagation and weight adjustment.
         """
+        # ensure (batch, features)
+        if x.ndim == 1:
+            x = x.reshape(1, -1)
 
         # Store input
         self.input_cache = x
-
-        # Apply mask to weights ( vectorized btw :) ) 
+        # Mask the weights
         cur_weights = self.weights * self.mask
-
-        # Compute weighted sum
+        # Weighted sum
         z = np.dot(x, cur_weights) + self.biases
         self.z_cache = z
-        # z is the conventional name
-
-        # Pass it through the activation
-        a = self.activation(z)
-        return a
-        # Note: we are returning the 'vector of inputs' for the next layer.
+        return self.activation(z)
 
     def backward(self, grad_output: np.ndarray, lr: float) -> np.ndarray:
-        # grad_output: derivative of loss w.r.t. output of this layer
+        # grad_output: derivative of loss w.r.t output of this layer
         # lr: learning rate
-        # May be adjusted through gradient descent algorithm (or its optimizations)
+        # May be adjusted through some scheduler algorithm btw
+        
+        # ensure (batch, outputs)
+        if grad_output.ndim == 1:
+            grad_output = grad_output.reshape(1, -1)
 
         # Derivative of activation
         dz = grad_output * self.d_activation(self.z_cache)
+        if dz.ndim == 1:
+            dz = dz.reshape(1, -1)
 
         # Gradients
         grad_w = np.dot(self.input_cache.T, dz) * self.mask
